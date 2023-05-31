@@ -10,10 +10,13 @@
 /test/contracts/bin/**/*.bin
 /test/contracts/bin/**/*.abi
 
+deployment/*_service/*
+
 **/.DS_Store
 .vscode
 .idea/
 .env
+*.log
 out.dat
 
 cmd/__debug_bin

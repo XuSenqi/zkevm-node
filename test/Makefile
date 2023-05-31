@@ -413,6 +413,19 @@ run: ## Runs a full node
 	$(RUNAGGREGATOR)
 	$(RUNJSONRPC)
 
+.PHONY: run_basic
+run_basic: ## Runs a full node
+	$(RUNSTATEDB)
+	$(RUNPOOLDB)
+	$(RUNEVENTDB)
+	$(RUNL1NETWORK)
+	sleep 1
+	$(RUNZKPROVER)
+
+.PHONY: run_aggregator
+run_aggregator:
+	$(RUNAGGREGATOR)
+
 .PHONY: stop
 stop: ## Stops all services
 	$(STOP)
