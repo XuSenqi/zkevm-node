@@ -205,44 +205,44 @@ ZKEVM_NODE_POOL_DB_HOST=zkevm-pool-db
 #/app/zkevm-node run --genesis /app/genesis.json --cfg /app/config.toml --components l2gaspricer
 nohup $node_path/dist/zkevm-node run --genesis $l2gaspricer_dir/test.genesis.config.json --cfg $l2gaspricer_dir/test.node.config.toml --components l2gaspricer > $log_dir/zkevm-l2gaspricer.log &
 
-## zkevm-aggregator
-#aggregator_dir=$node_path/deployment/zkevm-aggregator_service
-#rm -rf $aggregator_dir
-#mkdir -p $aggregator_dir
-#cp $node_path/test/config/test.node.config.toml $aggregator_dir
-#cp $node_path/test/config/test.genesis.config.json $aggregator_dir
-#
-#sed -i 's/Host = \"zkevm-state-db\"/Host = "localhost"/g' $aggregator_dir/test.node.config.toml
-#sed -i 's/Host = \"zkevm-pool-db\"/Host = "localhost"/g' $aggregator_dir/test.node.config.toml
-#sed -i 's/Host = \"zkevm-event-db\"/Host = "localhost"/g' $aggregator_dir/test.node.config.toml
-#
-##先找到pool_db的行号n, n+2行替换,todo
-#fline=$(grep pool_db $aggregator_dir/test.node.config.toml -n |  awk -F ":" '{print $1}')
-#eline=$(($fline+2))
-#sed -i "${fline},${eline}s/Port = \"5432\"/Port = \"5433\"/" $aggregator_dir/test.node.config.toml
-#
-##先找到event_db的行号n, n+2行替换,todo
-#fline=$(grep event_db $aggregator_dir/test.node.config.toml -n |  awk -F ":" '{print $1}')
-#eline=$(($fline+2))
-#sed -i "${fline},${eline}s/Port = \"5432\"/Port = \"5435\"/" $aggregator_dir/test.node.config.toml
-#
-## metrics 9091 --> 9093
-## 9093:9091 # needed if metrics enabled
-#sed -i 's/Port = 9091/Port = 9093/g' $aggregator_dir/test.node.config.toml
-#
-#sed -i 's/zkevm-mock-l1-network/localhost/g' $aggregator_dir/test.node.config.toml
-#sed -i "s:/pk:${aggregator_dir}:g" $aggregator_dir/test.node.config.toml
-#sed -i 's/zkevm-prover:50061/localhost:50061/g' $aggregator_dir/test.node.config.toml
-#sed -i 's/zkevm-prover:50071/localhost:50071/g' $aggregator_dir/test.node.config.toml
-#
-#sed -i 's/ProfilingPort = 6060/ProfilingPort = 6063/g' $aggregator_dir/test.node.config.toml
-#
-#ZKEVM_NODE_STATEDB_HOST=zkevm-state-db
-#ZKEVM_NODE_AGGREGATOR_SENDER_ADDRESS=0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
-##/app/zkevm-node run --genesis /app/genesis.json --cfg /app/config.toml --components aggregator
-#nohup $node_path/dist/zkevm-node run --genesis $aggregator_dir/test.genesis.config.json --cfg $aggregator_dir/test.node.config.toml --components aggregator > $log_dir/zkevm-aggregator.log &
+# zkevm-aggregator
+aggregator_dir=$node_path/deployment/zkevm-aggregator_service
+rm -rf $aggregator_dir
+mkdir -p $aggregator_dir
+cp $node_path/test/config/test.node.config.toml $aggregator_dir
+cp $node_path/test/config/test.genesis.config.json $aggregator_dir
 
-make run_aggregator
+sed -i 's/Host = \"zkevm-state-db\"/Host = "localhost"/g' $aggregator_dir/test.node.config.toml
+sed -i 's/Host = \"zkevm-pool-db\"/Host = "localhost"/g' $aggregator_dir/test.node.config.toml
+sed -i 's/Host = \"zkevm-event-db\"/Host = "localhost"/g' $aggregator_dir/test.node.config.toml
+
+#先找到pool_db的行号n, n+2行替换,todo
+fline=$(grep pool_db $aggregator_dir/test.node.config.toml -n |  awk -F ":" '{print $1}')
+eline=$(($fline+2))
+sed -i "${fline},${eline}s/Port = \"5432\"/Port = \"5433\"/" $aggregator_dir/test.node.config.toml
+
+#先找到event_db的行号n, n+2行替换,todo
+fline=$(grep event_db $aggregator_dir/test.node.config.toml -n |  awk -F ":" '{print $1}')
+eline=$(($fline+2))
+sed -i "${fline},${eline}s/Port = \"5432\"/Port = \"5435\"/" $aggregator_dir/test.node.config.toml
+
+# metrics 9091 --> 9093
+# 9093:9091 # needed if metrics enabled
+sed -i 's/Port = 9091/Port = 9093/g' $aggregator_dir/test.node.config.toml
+
+sed -i 's/zkevm-mock-l1-network/localhost/g' $aggregator_dir/test.node.config.toml
+sed -i "s:/pk:${aggregator_dir}:g" $aggregator_dir/test.node.config.toml
+sed -i 's/zkevm-prover:50061/localhost:50061/g' $aggregator_dir/test.node.config.toml
+sed -i 's/zkevm-prover:50071/localhost:50071/g' $aggregator_dir/test.node.config.toml
+
+sed -i 's/ProfilingPort = 6060/ProfilingPort = 6063/g' $aggregator_dir/test.node.config.toml
+
+ZKEVM_NODE_STATEDB_HOST=zkevm-state-db
+ZKEVM_NODE_AGGREGATOR_SENDER_ADDRESS=0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
+#/app/zkevm-node run --genesis /app/genesis.json --cfg /app/config.toml --components aggregator
+nohup $node_path/dist/zkevm-node run --genesis $aggregator_dir/test.genesis.config.json --cfg $aggregator_dir/test.node.config.toml --components aggregator > $log_dir/zkevm-aggregator.log &
+
+#make run_aggregator
 
 
 # zkevm-json-rpc
